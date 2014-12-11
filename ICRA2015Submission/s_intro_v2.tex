@@ -1,0 +1,63 @@
+\label{intro}
+Estimating the center of mass (CoM) and inertial parameters of a human is an important problem with many applications in stability and fall prediction \cite{stone2013unobtrusive,dutta2013low}, personalized rehabilitation programs \cite{venture2008motion}, designing impact protective equipment \cite{armstrong1988anthropometry,chandler1975investigation}, and analyzing and understanding the dynamics of motion of a human. 
+In this work, the primary motivation for inertial parameters estimation is teleoperation of a humanoid robot via motion imitation of a human. Control of humanoid robots is difficult due to a high number of degrees of freedom as well as inherent instability,
+%However, humans perform remarkable control and balance feats with relative ease. 
+so it is an attractive idea to pursue motion imitation as a means for controlling the humanoid robot rather than generating control signals from first principles.% or using solely classical control theory. 
+
+Previously, \cite{miller2004motion,ishiguro2005development} successfully demonstrated motion imitation for upper limbs on a humanoid robot and robotic arm, and \cite{kim2010online,hong2009walking} successfully imitated simple human walking by parameterizing step size according to height and stride lengths.
+However, these works only consider limited motion types in which the robot is able to maintain balance in an unconstrained manner. 
+For general motion imitation, the robot is not free to maintain balance in this way as it must imitate both upper and lower limb motions simultaneously. 
+In particular, due to differences in inertial parameters and scale between the human operator and humanoid robot, a na\"ive copying of joint angles would result in instability, causing the robot to fall down.
+For instance, while a human with a light torso may bend over while maintaining stability, a robot with a heavy torso would not be able to imitate this motion directly without falling.
+Therefore, in order to successfully imitate human pose, knowledge of the relative inertial parameters is required. 
+Throughout this work, inertial parameters will refer specifically to the mass of each limb as well as the location of the CoM of each limb. 
+
+Previous approaches to estimating inertial parameters requires expensive equipment such as MRIs \cite{cheng2000segment} or force plates and motion capture systems \cite{venture2008motion}. Furthermore, approaches such as \cite{venture2008motion,gonzalez2012estimation} estimate parameters solely from observations and do not leverage past distributional knowledge from the medical literature. 
+
+This paper introduces a novel method for estimating the inertial parameters and center of mass of a human using static pose and center of mass data and approximate Bayesian inference algorithms, the Metropolis-Hasting (MH) and Particle Filter (PF) algorithms. Unlike previous approaches to estimate inertial parameters using expensive or specialized equipment, this approach only requires the use of an inexpensive Wii Balance Board and Kinect Sensor. 
+
+Using such inexpensive equipment requires that the dataset contain only slow moving or static poses in order for the measurements to be reliable \cite{gonzalez2012estimation}.
+However, in Section \ref{prelim}, it is shown that solely using static pose and CoM data, such as in \cite{gonzalez2012estimation}, it is impossible to estimate the inertial parameters.  
+In order to overcome this deficiency, we pose the estimation problem in the Bayesian framework, by combining observational data from static poses as well as leveraging prior distributional knowledge from the medical literature.
+We utilize two approximate Bayesian inference algorithms for parameter estimation, and in Section \ref{experiments}, show that our approach both outperforms other algorithms in terms of tracking the CoM, and also returns inertial parameter estimates similar to those in the literature.%, supporting the claim that these methods are reasonable.
+
+%The contributions of this paper are as follows: in Section \ref{}, it is shown that solely using pose and CoM data from static poses, it is impossible to estimate the inertial parameters of a human. In order to overcome this deficiency, a novel method is introduced for determining the inertial parameters of a human operator using the Kinect sensor and Wii Balance Board.
+%We use two approximate Bayesian methods for parameter estimation: the Monte Carlo Markov Chain (MCMC) algorithm for analysis of batch data, and the Particle Filter (PF) for online data. Using data available from the literature \cite{}, we construct a prior distribution over inertial parameters of typical humans, update the posterior estimate using observations from the Kinect-Wii setup.
+%Unlike previous approaches, our approach does not require an expensive setup requiring force plates and motion tracking systems and our approach is guaranteed to return feasible assignments to the inertial parameters parameters.
+
+%\XX{maybe} Lastly, we propose a preliminary algorithm for motion imitation between a human and the robot and show in simulation that the robot successfully can imitate the human without losing balance.
+
+\section{PREVIOUS WORK}
+Past work for inertial parameter identification can be broadly classified into two fields.
+In the first, estimation is performed directly by weighing or observing physical properties of the limbs, for example, by examining cadaver limbs \cite{chandler1975investigation}, using stereophotometric and anthropometric techniques \cite{mcconville1980anthropometric,armstrong1988anthropometry}, or using an MRI to estimate density and volume \cite{cheng2000segment,pearsall1994inertial}.
+While these experiments directly measure the inertial parameters properties, they require specialized equipment, substantial time to perform experiments, or require postmortem measurements. For these reasons, such methods are not accessible by a more general set of researchers to obtain inertial parameters for new subjects. One may use regression models \cite{chandler1975investigation} using height and weight to predict inertial parameters, but these sort of regression models have a wide variance due to variability between body types and are unsuitable for applications such as robot teleoperation, which requires a more accurate estimation of these properties.
+
+In the second group of methods, the inertial parameters are estimated indirectly by observing a human perform some set of dynamic or static motions while in contact with a force plate that measures the center of pressure (CoP). 
+%Using a model relating the CoP to mo, it is possible to estimate the parameters. 
+For example, \cite{venture2008motion} uses a motion capture system and force plates to estimate the dynamic parameters using inverse dynamics and least squares. However, this method requires an expensive experimental setup and this method does not guarantee feasible assignments to variables, i.e. masses may be negative. 
+The problem of negative parameters is addressed in \cite{ayusawa2011real} by approximating the skeleton as a large set of point masses, however, this requires optimization routine over substantially more variables with little physical intuition. %Additionally, this method still requires an expensive motion capture system setup. 
+%dramatically increasing the complexity of the resulting model. 
+
+%\XX{why can't we do dynamic parameters?}
+
+
+\cite{gonzalez2012estimation} uses a simple Kinect and Wii Balance Board setup to predict the center of mass of a human, however, as shown in Section \ref{prelim}, it is fundamentally impossible to perform inertial parameter estimation using only static poses. 
+%Additionally, while \cite{gonzalez2012estimation} requires CoM measurements in the vertical direction to predict vertical CoM coordinates, our method estimates the link parameters directly, so using CoM measurements in the horizontal frame, the $z$ CoM coordinate can still be calculated.
+%This method does not leverage previous distributional knowledge from the medical literature, and as shown in the experiments section (Section \ref{}), is more sensitive to measurement noise
+Additionally, the experiments in this paper (Section \ref{experiments}) show that our methods are less sensitive to measurement noise and outperform \cite{gonzalez2012estimation} in terms of predicting the center of mass.
+Other methods include \cite{zhao2010estimating}, which estimates the inertial parameters using visual data and an optimization routine over a hueristic cost function. However, it is not proven that optimization over this cost function yields the correct answer, and is in fact shown to fail for more complicated systems. 
+
+In order to overcome these limitations, we formulate the problem in the Bayesian framework and estimate the parameters using approximate Bayesian inference algorithms, MH and the PF. Unlike previous approaches in the second group of literature that estimate the CoM using only experimental data, we leverage the past wealth of data on inertial parameters \cite{mcconville1980anthropometric, armstrong1988anthropometry, jensen1986body, jensen1989changes} and use this in designing the prior distribution for Bayesian estimation. 
+
+Thus, in contrast to previous methods, the method proposed in this paper does not require expensive or specialized equipment and is guaranteed to return feasible estimates of the mass and center of mass.
+Our method utilizes past distributional knowledge from the literature and is flexible in that the experimenter may design a prior distribution using any study or distributional form, i.e. it is not limited to simple distributions such as the Gaussian or Uniform distributions.
+
+%What has been done in the past? Venture, Gonzalez. Cite some other people as well...
+%Past limitations? Venture does not return feasible assignments and requires expensive equipment for dynamic motions. They have another formulation which returns positive masses but it relies on point mass approximations.
+%Gonzalez - sensitive to noise and only predicts CoM
+
+%How is our problem or approach different? Venture using dynamic data and expensive setups. Gonzalez uses same setup but only predicts the center of mass, not parameters. Additionally, this method is not guaranteed to generate feasible assignments and as shown in the results section requires heavy pre-processing to eliminate noise and get good results.
+
+%What is our approach? In order to eliminate the problem of observability, we use probabilistic formulations along with results from the literature to put a prior over the distribution of parameters. This ensures that the parameter estimates are feasible and allows for parameter estimation.
+%The methods work in batch and online.
+

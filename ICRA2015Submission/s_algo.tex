@@ -1,0 +1,135 @@
+%\section{Bayesian Inference}
+In order to account for the problem of observability mentioned in the previous section, we adopt a Bayesian probabilistic approach. 
+Bayesian inference is a method for inferring the most probable parameters given the observations as well as prior distributional knowledge of the parameters. In this case, Bayesian 
+inference fills in the missing information in the null space by supplementing the estimation process with prior distributional knowledge from the medical literature.
+In this sense, Bayesian inference acts as a sort of regularization, which solves the problem of ill-posedness of $Q$. 
+This section first reviews the fundamentals of Bayesian inference and then introduces the algorithms used for parameter estimation: MH and the PF.
+
+% using a prior over link masses and center of masses obtained from the literature \cite{}.  The following section reviews Bayesian probability fundamentals as well as the algorithms used to determine $\theta$. 
+
+\subsection{Bayesian Inference}
+Bayesian inference is a method for determining the posterior probability distribution of a set of (unobservable) parameters given a set of observations as well as a prior distribution over the parameters. 
+%In particular, it uses Baye's rule to update the probability density function (pdf) over a set of parameters using additional evidence that has been collected. 
+More formally, consider a set of parameters of interest, $\theta$, a prior probability density function (pdf) over those parameters $p(\theta)$, a set of measurements $y$, and measurement likelihood pdf $p(y\mid \theta)$, parameterized by  $\theta$. Baye's rule states that the posterior distribution of the parameters $p(\theta \mid y)$ given the observations is
+\begin{equation}
+p(\theta \mid y) = \frac{1}{Z} p(y \mid \theta)p(\theta)
+\end{equation}
+where $Z = \int_\Theta p(y \mid \theta)p_\theta(\theta)$ and $\Theta = \{\theta \mid p(y \mid \theta)p_\theta(\theta)>0\}$. $Z$ is a normalization factor to ensure that $p(\theta \mid y)$ integrates to $1$ and is \emph{constant} for a fixed set of data. The value of $\theta$ with highest posterior probability, i.e. $\theta_{MAP} = \arg\max_\theta p(\theta \mid y)$, is called the the maximum a posteriori (MAP) estimate. In this work, after the MAP estimate has been approximately solved, the center of mass is calculated by plugging the MAP estimate into $\theta$ in \eqref{eq:comSum}.
+%In applications where only the MAP estimate is considered, it is sufficient to drop the normalization constant and only consider the quantity $p(\theta \mid y) \propto p(y \mid \theta)p_\theta(\theta)$.
+
+In general, it is impracticable or infeasible to calculate the normalization factor for all but special distributions. Therefore, a variety of approximation techniques must be used.
+ %In this work, we consider three approximation methods. In the first method, we approximate the prior and measurement noise distributions as Gaussian. In this case, the posterior distribution can be calculated in closed form as another Gaussian. This approximation method has the benefit of being extremely fast in computation and algorithmic simplicity, however, it does not guarantee feasible assignments to parameters. That is to say, while in the original distribution, negative masses and center of masses are not permitted, a Gaussian distribution has infinite support, so it may return a MAP solution with negative values.
+This paper considers two approximation methods, one batch and one online. The first approximation method, Metropolis Hasting (MH), is a member of the Markov Chain Monte Carlo (MCMC) framework \cite{chib1995understanding} and works for batch data. The MCMC algorithm generates samples from the posterior distribution $p(\theta \mid y)$, and one can then record the samples with the highest value of $p(\theta \mid y) \propto p(y \mid \theta)p(\theta)$ to approximately estimate the MAP solution. Since samples with high probability are drawn more frequently than those will low probability, MCMC generates good approximate MAP solutions in a relatively small number of samples. 
+
+In general, MCMC works well for solving approximate MAP problems in which the dimensionality of the parameters is high or in which generating samples from the distribution is difficult due to a complicated distribution shape. In this work, the dimensionality of the parameters is quite large at $22$, 11 masses and 11 center of masses, and the prior distribution has many constraints.Therefore, MCMC is a natural fit for this estimation problem.
+However, while a batch solution may work for many cases, one might also wish to have an online method for parameter estimation to permit some sort of active exploration of parameters. For example, \cite{ayusawa2009optimal,gonzalez2013online} provide feedback to the user during the training phase to move joints that have larger uncertainty.% given the current observations.
+
+Thus, the second approximation method uses an online Particle Filter (PF) method \cite{doucet2009tutorial}. Using a PF, the probability distribution function is approximated using a set of weighted basis probability functions, or particles. After each new observation, the weight of each particle is adjusted according to the measurement likelihood function in order to reflect the new information. In this way, the posterior distribution can be approximated using a reduced basis set and simple multiplicative updates at each observation.
+
+Both algorithms are first presented in their general form, and then the specific form of the likelihood and prior pdfs used in the experiments are presented in Section \ref{distribution}.
+
+\subsection{Metropolis-Hasting}
+MCMC is a set of algorithms in the statistics literature that are able to generate samples from a distribution for which direct sampling is difficult. In the work, we draw samples from the posterior distribution $p(\theta \mid y)$ and the specific algorithm used is the Metropolis-Hasting (MH) algorithm. The MH algorithm does not require the exact probability function $p(\theta \mid y)$ but simply a proportional function, in this case $p(y \mid \theta)p(\theta)$. 
+The MH algorithm works by generating a random walk using some distribution which may be directly sampled, such as a uniform or Gaussian distribution, and then accepting or rejecting samples according to the relative likelihoods of the current sample and the proposed next sample.
+For a more detailed explanation of the MH algorithm and its applications, see \cite{chib1995understanding}. 
+
+The algorithm is initialized with an arbitrary parameter sample, $\theta_0$. In this work, $\theta_0$ is drawn from the prior distribution, $\theta_0 \sim p(\theta)$. Then, at every iteration, the MH algorithm proposes a new sample by perturbing the current sample $\theta' \sim f(\theta_{i})$ according to some distribution that is simple to sample. 
+In this work, at every iteration, the algorithm adds white Gaussian noise to the current sample $\theta' \sim \mathcal{N}(\theta{t},\sigma_{MH}^2)$. With some probability, the new sample is then accepted or rejected using the relative posterior probabilities of the samples, i.e. with probability $\alpha = \min\left(1, \frac{p(\theta' \mid y)}{p(\theta_{t} \mid y)}\right)$ the new sample is accepted and $\theta_{t+1} = \theta'$, or the sample is rejected so $\theta_{t+1} = \theta_t$. By accepting proposed samples with this modified probability, it can be shown that the resulting distribution, as the number of samples drawn tends to infinity, is the true posterior distribution \cite{chib1995understanding}.
+This work focuses on estimating the MAP solution, so in addition, the sample with the highest posterior probability is saved.
+
+Lastly, while in theory the MH algorithm will return samples from the target distribution as the number of iterations tends to infinity, in practice %there is a burn-in period in which the initial state $\theta_0$ creates a bias of samples, and a 
+the MH may become stuck in local optima. Therefore, random restarts are needed to ensure proper mixing and prevent convergence to local optima. Determining when to perform random restarts is somewhat domain and user dependent, however, in this work, we perform a restart when the sample hasn't changed for over $1000$ iterations.
+The algorithm is formalized in Algorithm \ref{alg:mh}.
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\caption{Approximate MAP via Metropolis Hasting}
+\label{alg:mh}
+\STATE \textbf{Input:} Prior distribution $p(\theta)$, likelihood function $p(y \mid \theta)$, random walk distribution $\mathcal{N}(0,\sigma_{MH}^2)$
+\STATE Initialize sample $\theta_0 \sim p(\theta)$, $\hat \theta_{MAP} = \theta_0$
+\WHILE{Samples are needed}
+\STATE Generate new candidate $\theta' = \theta_{t} + \nu$, $\nu \sim \mathcal{N}(0,\sigma_{MH}^2)$
+\STATE Calculate acceptance probability $\alpha = \min\left(1,\frac{p(y \mid \theta' )p(\theta')}{p(y \mid \theta_t )p(\theta_t)}\right)$
+\STATE Generate $b \sim \text{Uniform}(0,1)$.
+\IF{$b <\alpha$}
+\STATE Accept new sample, $\theta_{t+1} = \theta'$.
+\ELSE
+\STATE Reject new sample, $\theta_{t+1} = \theta_t$.
+\ENDIF
+\IF{$p(y \mid \theta_{t+1} )p(\theta_{t+1}) > p(y \mid \hat \theta_{MAP} )p(\hat \theta_{MAP})$}
+\STATE $\hat \theta_{MAP} = \theta_{t+1}$
+\ENDIF
+\IF{$\theta_t$ remains unchanged for $1000$ iterations}
+\STATE Random restart: $\theta_{t+1} \sim p(\theta)$ 
+\ENDIF
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Particle Filter}
+While the MH algorithm works well for finding the approximate MAP solution, it is constrained to batch data. In order to generate a MAP solution or give feedback during training, the particle filter (PF) is used as an online method for finding the approximate MAP solution.
+For a detailed introduction to the PF, refer to \cite{doucet2009tutorial}.
+
+The PF approximates the posterior distribution using a set of basis functions, such as the Dirac delta function or a Gaussian distribution with narrow bandwidth. In this work, the posterior distribution is approximated using Dirac delta functions as 
+\begin{equation}
+\hat p(\theta \mid y) = \sum_i w_i \delta(\theta - \theta_i)
+\end{equation}
+where $\delta(\theta - \theta_i)$ is the dirac delta, which is zero everywhere except for $\delta(0) = \infty$, and integrates to one, $\int_\Theta \delta =1$. In order to ensure that $\hat p (\theta \mid y)$ is a valid probability distribution, i.e. integrates to one and is nonnegative, the weights have the properties $\sum_i w_i  =1$ and $\forall i,$ $w_i \geq 0$.
+
+The PF is initialized by drawing particles $\theta_i \sim p(\theta)$ from the prior distribution. The weights are initialized to $w'_i = p(\theta_i)$ and then normalized as $w_i = w'_i / \sum_i w'_i$. 
+Given a new observation $y^t$, the weights of the particles must be updated to reflect the modified posterior distribution. In particular, one may write the updated posterior probability as
+\begin{equation}
+ p(\theta \mid y^1, \hdots, y^t) \propto p(y^1, \hdots,y^t \mid \theta)p(\theta) \label{eq:condind1}
+\end{equation}
+and it follows that due to the conditional indendence of the observations conditioned on the parameters $\theta$, \eqref{eq:condind1} can be rewritten as,
+\begin{equation}
+ p(\theta \mid y^1, \hdots, y^t) \propto \prod_{i=1}^t p(y^i\mid \theta)p(\theta) \label{eq:condind2}
+\end{equation}
+Or written recursively as,
+\begin{equation}
+ p(\theta \mid y^1, \hdots, y^t) \propto p(\theta \mid y^1, \hdots, y^{t-1})p(y^t\mid \theta) \label{eq:condind3}
+\end{equation}
+
+Therefore, the weights are updated as $w_i^t = w_i^{t-1}p(y^t \mid \theta)$ and then again normalized. Finding the MAP solution at iteration $t$ requires only searching over the weights $w_i$ and returning the corresponding $\hat \theta_{MAP} = \theta_{j}$, where $j = \arg\max_i w_i$.
+
+In practice, after many observations, many of the weights become negligibly close to zero, as the posterior probability $p(\theta_i \mid y^1,\hdots,y^t)$ goes to zero. Therefore, in order to maintain coverage over the regions with high probability, particles are deleted and resampled close to particles with higher weight. Many techniques exist for resampling, however, our approach is detailed in Algorithm \ref{alg:pf}, line \ref{line:res}. Essentially, every iteration, the algorithm deletes 10\% of the particles with the lowest weight and resamples. For resampling, the algorithm choses an existing particle $\theta_j$ with probability proportional to the weight of the particle $w_j$ or choses to generate a new particle from the prior $\theta_k \sim p(\theta)$ with probability $\alpha_{PF}$. If an existing particle is chosen, a new particle $\theta_k \sim \mathcal{N}(\theta_j,\sigma_{PF}^2)$ is created close to the old particle. 
+The weight is initialized as $w'_k = p(\theta)p(y_1,\hdots,y_t \mid \theta)$.
+This process is formalized in Algorithm \ref{alg:pf}. 
+
+\begin{algorithm}
+\begin{algorithmic}[1]
+\caption{Approximate MAP via Particle Filter}
+\label{alg:pf}
+\STATE \textbf{Input:} Prior distribution $p(\theta)$, likelihood function $p(y \mid \theta)$, particle generation distribution $\mathcal{N}(0,\sigma_{PF}^2)$, number of particles $K$
+\STATE Initialize particles $k = 1,\hdots,K$, $\theta_k \sim p(\theta)$.
+\STATE Calculate probability $w'_k = p(\theta)$
+\STATE Calculate normalized weights $w_k = \frac{w'_k}{\sum_i w'_k}$
+\STATE Calculate approximate MAP $j = \arg\max_i w_i$, $\hat \theta_{MAP} = \theta_j$
+\WHILE{Observations are available}
+	\STATE Observe new datapoint $y_t$
+	\STATE Update probabilities $\forall k, w'_k = w'_k p(y_t \mid \theta_k)$.
+	\STATE Calculate normalized weights $\forall k$, $w_k = \frac{w'_k}{\sum_i w'_k}$.
+	\STATE Estimate MAP $j = \arg\max_i w_i$; $\hat \theta_{MAP} = \theta_j$
+	\FOR{Each particle $\theta_k$ with weight in the lowest 10\% percentile}
+		
+			\STATE Delete particle $\theta_k$
+			\STATE Sample from multinomial distribution $\text{Multi}(w_1,\hdots, w_K, \alpha_{PF})$ \label{line:res}
+			\IF{Particle $\theta_j$ selected}
+				\STATE Sample $\theta_k \sim \mathcal{N}(\theta_j, \sigma^2_{PF})$
+			\ELSE
+				\STATE Sample $\theta_k \sim p(\theta)$
+			\ENDIF
+			\STATE Set $w'_k = p(\theta)p(y_1,\hdots,y_t \mid \theta)$ 
+	\ENDFOR
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+
+
+
+

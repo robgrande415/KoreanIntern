@@ -1,0 +1,141 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@rmstyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand\BIBentrySTDinterwordspacing{\spaceskip=0pt\relax}
+\providecommand\BIBentryALTinterwordstretchfactor{4}
+\providecommand\BIBentryALTinterwordspacing{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand\BIBforeignlanguage[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+
+\bibitem{stone2013unobtrusive}
+E.~E. Stone and M.~Skubic, ``Unobtrusive, continuous, in-home gait measurement
+  using the microsoft kinect,'' 2013.
+
+\bibitem{dutta2013low}
+A.~Dutta and A.~Banerjee, ``Low-cost visual postural feedback with wii balance
+  board and microsoft kinect-a feasibility study,'' in \emph{Point-of-Care
+  Healthcare Technologies (PHT), 2013 IEEE}.\hskip 1em plus 0.5em minus
+  0.4em\relax IEEE, 2013, pp. 291--294.
+
+\bibitem{venture2008motion}
+G.~Venture, K.~Ayusawa, and Y.~Nakamura, ``Motion capture based identification
+  of the human body inertial parameters,'' in \emph{Engineering in Medicine and
+  Biology Society, 2008. EMBS 2008. 30th Annual International Conference of the
+  IEEE}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2008, pp. 4575--4578.
+
+\bibitem{armstrong1988anthropometry}
+H.~Armstrong, ``Anthropometry and mass distribution for human analogues. volume
+  1. military male aviators,'' \emph{Aerospace Medical Research Lab
+  Wright-Patterson AFB Ohio USA, Tech. Rep}, 1988.
+
+\bibitem{chandler1975investigation}
+R.~Chandler, C.~Clauser, J.~McConville, H.~Reynolds, and J.~Young,
+  ``Investigation of inertial properties of the human body,'' DTIC Document,
+  Tech. Rep., 1975.
+
+\bibitem{miller2004motion}
+N.~Miller, O.~C. Jenkins, M.~Kallmann, and M.~J. Mataric, ``Motion capture from
+  inertial sensing for untethered humanoid teleoperation,'' in \emph{Humanoid
+  Robots, 2004 4th IEEE/RAS International Conference on}, vol.~2.\hskip 1em
+  plus 0.5em minus 0.4em\relax IEEE, 2004, pp. 547--565.
+
+\bibitem{ishiguro2005development}
+H.~Ishiguro and T.~Minato, ``Development of androids for studying on
+  human-robot interaction,'' in \emph{INTERNATIONAL SYMPOSIUM ON ROBOTICS},
+  vol.~36.\hskip 1em plus 0.5em minus 0.4em\relax unknown, 2005, p.~5.
+
+\bibitem{kim2010online}
+S.-K. Kim, S.~Hong, D.~Kim, Y.~Oh, B.-J. You, and S.-R. Oh, ``Online footprint
+  imitation of a humanoid robot by walking motion parameterization,'' in
+  \emph{Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ International
+  Conference on}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2010, pp.
+  2692--2697.
+
+\bibitem{hong2009walking}
+S.~Hong, Y.~Oh, D.~Kim, and B.~J. You, ``A walking pattern generation method
+  with feedback and feedforward control for humanoid robots,'' in
+  \emph{Intelligent Robots and Systems, 2009. IROS 2009. IEEE/RSJ International
+  Conference on}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2009, pp.
+  1078--1083.
+
+\bibitem{cheng2000segment}
+C.-K. Cheng, H.-H. Chen, C.-S. Chen, C.-L. Lee, and C.-Y. Chen, ``Segment
+  inertial properties of chinese adults determined from magnetic resonance
+  imaging,'' \emph{Clinical biomechanics}, vol.~15, no.~8, pp. 559--566, 2000.
+
+\bibitem{gonzalez2012estimation}
+A.~Gonz{\'a}lez, M.~Hayashibe, and P.~Fraisse, ``Estimation of the center of
+  mass with kinect and wii balance board,'' in \emph{Intelligent Robots and
+  Systems (IROS), 2012 IEEE/RSJ International Conference on}.\hskip 1em plus
+  0.5em minus 0.4em\relax IEEE, 2012, pp. 1023--1028.
+
+\bibitem{mcconville1980anthropometric}
+J.~T. McConville, C.~E. Clauser, T.~D. Churchill, J.~Cuzzi, and I.~Kaleps,
+  ``Anthropometric relationships of body and body segment moments of inertia,''
+  DTIC Document, Tech. Rep., 1980.
+
+\bibitem{pearsall1994inertial}
+D.~Pearsall, J.~Reid, and R.~Ross, ``Inertial properties of the human trunk of
+  males determined from magnetic resonance imaging,'' \emph{Annals of
+  biomedical engineering}, vol.~22, no.~6, pp. 692--706, 1994.
+
+\bibitem{ayusawa2011real}
+K.~Ayusawa, G.~Venture, and Y.~Nakamura, ``Real-time implementation of
+  physically consistent identification of human body segments,'' in
+  \emph{Robotics and Automation (ICRA), 2011 IEEE International Conference
+  on}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2011, pp. 6282--6287.
+
+\bibitem{zhao2010estimating}
+J.~Zhao, Y.~Wei, S.~Xia, and Z.~Wang, ``Estimating human body segment
+  parameters using motion capture data,'' in \emph{Universal Communication
+  Symposium (IUCS), 2010 4th International}.\hskip 1em plus 0.5em minus
+  0.4em\relax IEEE, 2010, pp. 243--249.
+
+\bibitem{jensen1986body}
+R.~K. Jensen, ``Body segment mass, radius and radius of gyration proportions of
+  children,'' \emph{Journal of Biomechanics}, vol.~19, no.~5, pp. 359--368,
+  1986.
+
+\bibitem{jensen1989changes}
+------, ``Changes in segment inertia proportions between 4 and 20 years,''
+  \emph{Journal of Biomechanics}, vol.~22, no.~6, pp. 529--536, 1989.
+
+\bibitem{cotton2011estimation}
+S.~Cotton, M.~Vanoncini, P.~Fraisse, N.~Ramdani, E.~Demircan, A.~Murray, and
+  T.~Keller, ``Estimation of the centre of mass from motion capture and force
+  plate recordings: a study on the elderly,'' \emph{Applied Bionics and
+  Biomechanics}, vol.~8, no.~1, pp. 67--84, 2011.
+
+\bibitem{chib1995understanding}
+S.~Chib and E.~Greenberg, ``Understanding the metropolis-hastings algorithm,''
+  \emph{The American Statistician}, vol.~49, no.~4, pp. 327--335, 1995.
+
+\bibitem{ayusawa2009optimal}
+K.~Ayusawa, Y.~Nakamura, and G.~Venture, ``Optimal estimation of human body
+  segments dynamics using realtime visual feedback,'' in \emph{Intelligent
+  Robots and Systems, 2009. IROS 2009. IEEE/RSJ International Conference
+  on}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE, 2009, pp. 1627--1632.
+
+\bibitem{gonzalez2013online}
+A.~Gonz{\'a}lez, M.~Hayashibe, and P.~Fraisse, ``Online identification and
+  visualization of the statically equivalent serial chain via constrained
+  kalman filter,'' in \emph{Robotics and Automation (ICRA), 2013 IEEE
+  International Conference on}.\hskip 1em plus 0.5em minus 0.4em\relax IEEE,
+  2013, pp. 5323--5328.
+
+\bibitem{doucet2009tutorial}
+A.~Doucet and A.~M. Johansen, ``A tutorial on particle filtering and smoothing:
+  Fifteen years later.''
+
+\end{thebibliography}

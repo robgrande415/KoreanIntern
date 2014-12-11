@@ -1,0 +1,13 @@
+%\XX{what is the contribution?? make it sink home with the reviewers}
+This paper presented a novel method for estimating the mass distribution of a human using a position and center of mass measurements of a human performing slow moving or static poses. 
+Unlike previous methods, our setup does not require expensive or specialized equipment and only requires a Kinect and Wii Balance Board.
+Using such inexpensive equipment requires that the dataset contain only slow moving or static poses in order for the measurements to be reliable. 
+However, in Section \ref{prelim}, it was shown that using only static position measurements, it is impossible to determine the mass distribution due to an observability problem. 
+Therefore, the problem was formulated in the Bayesian framework using prior distributions derived from the medical literature, and two approximate Bayesian inference algorithms, Metropolis-Hasting (MH) and the Particle Filter (PF), were used to estimate the mass distribution. 
+In Section \ref{experiments}, it was shown that the MH and PF estimates of mass distribution were close to those in the medical literature and that using these mass distribution estimates, one can successfully predict the center of mass of a human from observed joint angles. 
+Additionally, both MH and PF algorithms outperformed the Statically Equivalent Serial Chain (SESC) Model \cite{gonzalez2012estimation} in terms of prediction error of the center of mass for new test data.
+
+Further work will focus on using these human inertial parameter estimates to allow a humanoid robot with different inertial parameters to imitate the motion of a human operator. 
+Additionally, future work will focus on methods for generating feedback for users during the training phase to generate poses which result in the most uncertainty reduction.
+
+

@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../example/../src/wiiuse.h
+windows.h
+-
+bluetooth/bluetooth.h
+-
+wiiuse_msvcstdint.h
+../example/../src/wiiuse_msvcstdint.h
+stdint.h
+-
+stdio.h
+-
+
+../example/../src/wiiuse_msvcstdint.h
+limits.h
+-
+wchar.h
+-
+
+/Users/RobertGrande/Kinect/wiiuse2/example/example.c
+stdio.h
+-
+wiiuse.h
+/Users/RobertGrande/Kinect/wiiuse2/example/wiiuse.h
+unistd.h
+-
+time.h
+-
+string.h
+-
+

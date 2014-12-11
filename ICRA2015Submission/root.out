@@ -1,0 +1,12 @@
+\BOOKMARK [1][-]{section.1}{INTRODUCTION}{}% 1
+\BOOKMARK [1][-]{section.2}{PREVIOUS WORK}{}% 2
+\BOOKMARK [1][-]{section.3}{HUMAN MODEL}{}% 3
+\BOOKMARK [1][-]{section.4}{BAYESIAN INFERENCE ALGORITHMS}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Bayesian Inference}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Metropolis-Hasting}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Particle Filter}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{EXPERIMENTS AND RESULTS}{}% 8
+\BOOKMARK [2][-]{subsection.5.1}{Distributions and Parameters}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.2}{Experiments}{section.5}% 10
+\BOOKMARK [1][-]{section.6}{DISCUSSION}{}% 11
+\BOOKMARK [1][-]{section*.2}{References}{}% 12

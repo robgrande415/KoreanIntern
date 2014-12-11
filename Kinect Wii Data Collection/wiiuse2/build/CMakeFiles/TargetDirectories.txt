@@ -1,0 +1,2 @@
+/Users/RobertGrande/Kinect/wiiuse2/build/src/CMakeFiles/wiiuse.dir
+/Users/RobertGrande/Kinect/wiiuse2/build/example/CMakeFiles/wiiuseexample.dir

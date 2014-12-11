@@ -1,0 +1,141 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
+
+\IEEEoverridecommandlockouts                              % This command is only needed if 
+                                                          % you want to use the \thanks command
+
+\overrideIEEEmargins                                      % Needed to meet printer requirements.
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{epsfig} % for postscript graphics files
+\usepackage{mathptmx} % assumes new font selection scheme installed
+\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\pdfminorversion=4
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%my stuff
+\usepackage{subfigure} 
+\usepackage{latexsym,amssymb,amsmath,amsfonts}
+\usepackage{fancyhdr,subfigure}
+\usepackage{epsfig,psfrag,amsmath,subfigure}
+\usepackage{srcltx}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage[svgnames]{xcolor} 
+\usepackage{algorithm}
+\usepackage[noend]{algorithmic}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+\theoremstyle{plain} \theorembodyfont{\upshape}
+\newtheorem{theorem}{\indent Theorem}
+\newtheorem{prop}[theorem]{\indent Proposition}
+\newtheorem{corollary}[theorem]{\indent Corollary}
+\newtheorem{definition}{\indent Definition}
+\newtheorem{fact}[theorem]{\indent Fact}
+\newtheorem{lemma}{\indent Lemma}
+\newtheorem{assumption}{\indent Assumption}
+\newtheorem{condition}{\indent Condition}
+\newtheorem{remark}{\indent Remark}
+\newtheorem{problem}{\indent Problem}
+
+
+
+\input{inc}
+\input{inc_macros}
+
+\title{\LARGE \bf
+Estimation of Human Center of Mass and Inertial Parameters via Approximate Bayesian Inference
+}
+
+
+\author{Robert C, Grande$^{1}$ and Doik Kim$^{2}$% <-this % stops a space
+\thanks{$^{1}$ Massachusetts Institute of Technology, MISTI-Korea Intern, 77 Massachusetts Ave, Cambridge, MA, 02139, USA $^{2}$ Senior Researcher at Korean Institute of Science and Technology, Hwarangno 14-gil 5
+Seongbuk-gu, Seoul, 136-791, Republic of Korea
+        {\tt\small \{robgrande415, diki2005\}@gmail.com}}%
+}
+
+
+\begin{document}
+
+
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+Estimation of human body inertia parameters and center of mass is important for a variety of applications such as understanding the motion and stability of humans, personalizing rehabilitation programs, and humanoid robot teleoperation via motion imitation.
+%utilization as an index for fall prediction.
+While previous methods can estimate the inertial parameters or center of mass, these methods either require an expensive or specialized setup or can only estimate the center of mass, not the inertial parameters.
+%Controlling a humanoid robot is extremely difficult due to a high dimensional state-space and unstable dynamics, however, athletes and performers perform remarkable feats of balance and control with apparent ease. 
+%Thus, one attractive approach to control a humanoid robot is teleoperation using motion imitation of a human.
+%Due to differences in inertial parameterss and limb lengths, one cannot na\"ively transfer joint angles from a human operator to the robot without introducing instability, however. 
+In this paper, we introduce a novel method for estimating inertial parameters and center of mass of a human operator using an inexpensive Wii Balance Board and Kinect camera system. 
+%It is shown that previous approaches that estimate the parameters via least squares and static poses cannot be used to estimate inertial parameters, and in order to overcome these deficiencies, 
+It is shown that approaches using na\"ive methods such as least squares cannot be used to estimate the inertial parameters, and in order to overcome these deficiencies, we utilize approximate Bayesian inference algorithms to estimate the inertial parameters. 
+The experiments show that the methods proposed in this paper not only outperform existing algorithms in terms of predicting center of mass but also successfully return realistic estimates of the inertial parameters.
+%Lastly, we propose a simple algorithm for transferring the motion of a human to that of a robot and test it in simulation. Our preliminary results show that the algorithm successfully is able to transfer the positions of the human operator to the robot without causing instability.
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{INTRODUCTION}
+\input{s_intro_v2}
+
+\section{HUMAN MODEL}
+\input{s_prelim}
+
+\section{BAYESIAN INFERENCE ALGORITHMS}
+\input{s_algo}
+
+\section{EXPERIMENTS AND RESULTS}
+\input{s_experiment}
+
+\section{DISCUSSION}
+%\input{s_theory_PAC}
+\input{s_conclusions}
+
+
+\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
+                                  % on the last page of the document manually. It shortens
+                                  % the textheight of the last page by a suitable amount.
+                                  % This command does not take effect until the next page
+                                  % so it should come on the page before the last. Make
+                                  % sure that you do not shorten the textheight too much.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section*{ACKNOWLEDGMENT}
+This work was supported by the KIST Institutional Program(Project No. 2E24800).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\bibliography{BIB_all/controls}
+\bibliographystyle{IEEEtran}
+
+
+\end{document}
